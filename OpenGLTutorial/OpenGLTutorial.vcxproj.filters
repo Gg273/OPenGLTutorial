@@ -22,4 +22,8 @@
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\firstversion.vs" />
+    <None Include="shader\firstversion.fs" />
+  </ItemGroup>
 </Project>
