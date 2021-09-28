@@ -39,27 +39,35 @@ int main()
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
+		// 一个矩形的顶点
+		 0.5f,  0.5f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f,
-		 
+		-0.5f, -0.5f, 0.0f,
+		-0.5f,  0.5f, 0.0f 
+
 	};
-	// 设置vertex array object
-	unsigned int VAO;
+	unsigned int indices[] = {
+		0, 1, 3,
+		1, 2, 3
+	};
+
+	// 设置 VAO、VBO、IBO
+	unsigned int VAO, VBO, IBO;
+	
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
-
-	// 设置vertex buffer object
-	unsigned int VBO;
+	
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	
-	// 设置数据分布层
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (const void*)0);
+
+	glGenBuffers(1, &IBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
 	glEnableVertexAttribArray(0);
-
-
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)0);
+	
 	const char* vertexShaderSource = "#version 330 core\n"
 		"layout (location = 0) in vec3 aPos;\n"
 		"void main()\n"
@@ -135,7 +143,7 @@ int main()
 		// 绘制图形
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
 
