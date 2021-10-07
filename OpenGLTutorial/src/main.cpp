@@ -214,10 +214,14 @@ int main()
         lightingShader.setFloat("material.shininess", 64.0f);
 
         // 光源属性
-        lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f); // 平行光向量
+        lightingShader.setVec3("light.position", lightPos); // 平行光向量
         lightingShader.setVec3("light.ambient", 0.4f, 0.4f, 0.4f); // 环境光状态
         lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // 
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+        // 点光源的随距离增加的衰减公式参数
+        lightingShader.setFloat("light.constant", 1.0f);
+        lightingShader.setFloat("light.linear", 0.09f);
+        lightingShader.setFloat("light.quadratic", 0.032f);
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);

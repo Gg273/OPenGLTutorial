@@ -9,12 +9,16 @@ struct Material {
 };
 // 光线贴图
 struct Light {
-    // vec3 position;  // 使用定向光不在需要光源位置，因为所有的光线都是平行的
-    vec3 direction;
+    vec3 position; 
 
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+
+    // 定义点光源的随距离衰减参数 
+    float constant;
+    float linear;
+    float quadratic;
 };
 
 uniform Light light;
@@ -33,15 +37,24 @@ void main()
 
     //设置漫反射光
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(-light.direction);
+    vec3 lightDir = normalize(light.position - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
     
-    //设置镜面反射
+    //设置镜面反射光
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm); //反射光线
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
+
+    //设置衰减值
+    float distance = length(light.position - FragPos);
+    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+    //衰减后的光线
+    ambient  *= attenuation;
+    diffuse  *= attenuation;
+    specular *= attenuation;
 
     //最终的颜色
     FragColor = vec4((ambient + diffuse + specular), 1.0);
