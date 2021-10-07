@@ -206,18 +206,23 @@ int main()
 
         // be sure to activate shader when setting uniforms/drawing objects
         lightingShader.use();
-        lightingShader.setVec3("viewPos", camera.Position);
+        
 
         // 物体属性
         lightingShader.setInt("material.diffuse", 0); //物体的反射颜色
         lightingShader.setInt("material.specular", 1); //物体镜面反射的程度设置
-        lightingShader.setFloat("material.shininess", 64.0f);
+        lightingShader.setFloat("material.shininess", 32.0f);
 
+        // 聚光源属性，指手电筒类似的光源
+        lightingShader.setVec3("light.position", camera.Position);
+        lightingShader.setVec3("light.direction", camera.Front);
+        lightingShader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+        lightingShader.setVec3("viewPos", camera.Position);
         // 光源属性
-        lightingShader.setVec3("light.position", lightPos); // 平行光向量
-        lightingShader.setVec3("light.ambient", 0.4f, 0.4f, 0.4f); // 环境光状态
-        lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // 
+        lightingShader.setVec3("light.ambient", 0.1f, 0.1f, 0.1f); // 环境光状态
+        lightingShader.setVec3("light.diffuse", 0.8f, 0.8f, 0.8f); // 
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
         // 点光源的随距离增加的衰减公式参数
         lightingShader.setFloat("light.constant", 1.0f);
         lightingShader.setFloat("light.linear", 0.09f);
