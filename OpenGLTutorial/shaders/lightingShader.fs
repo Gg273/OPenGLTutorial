@@ -1,11 +1,16 @@
 #version 330 core
+out vec4 FragColor; 
+
+// 物体贴图
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
-    float shininess;
+    float     shininess;
 };
+// 光线贴图
 struct Light {
-    vec3 position;
+    // vec3 position;  // 使用定向光不在需要光源位置，因为所有的光线都是平行的
+    vec3 direction;
 
     vec3 ambient;
     vec3 diffuse;
@@ -14,23 +19,21 @@ struct Light {
 
 uniform Light light;
 uniform Material material;
-
 uniform vec3 viewPos;
 
 in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoords;
 
-out vec4 FragColor;  
-
 void main()
 {
+    
     //设置环境光
     vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
 
     //设置漫反射光
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(light.position - FragPos);
+    vec3 lightDir = normalize(-light.direction);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
     
@@ -41,5 +44,5 @@ void main()
     vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
 
     //最终的颜色
-    FragColor = vec4(ambient + diffuse + specular, 1.0);
+    FragColor = vec4((ambient + diffuse + specular), 1.0);
 }
