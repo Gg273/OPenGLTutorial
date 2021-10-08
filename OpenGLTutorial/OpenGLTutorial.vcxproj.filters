@@ -24,7 +24,10 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -34,6 +37,9 @@
     <None Include="shaders\lightingShader.vs" />
     <None Include="shaders\lightingShader.fs" />
     <None Include="shaders\lampShader.fs" />
+    <None Include="packages.config" />
+    <None Include="shaders\model.fs" />
+    <None Include="shaders\model.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h">
@@ -42,7 +48,10 @@
     <ClInclude Include="src\camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\Texture.h">
+    <ClInclude Include="src\Mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
