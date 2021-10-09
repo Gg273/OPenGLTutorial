@@ -119,6 +119,15 @@ int main()
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
+
+        ourShader.setVec3("viewPos", camera.Front + camera.Position);
+
+        // 定向光设置
+        ourShader.setVec3("dirLight.direction", -(camera.Front + camera.Position));
+        ourShader.setVec3("dirLight.ambient", 0.4f, 0.4f, 0.4f);
+        ourShader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+        ourShader.setVec3("dirLight.specular", 0.4f, 0.4f, 0.4f);
+
         ourModel.Draw(ourShader);
 
 
