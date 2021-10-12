@@ -120,13 +120,21 @@ int main()
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
 
-        ourShader.setVec3("viewPos", camera.Front + camera.Position);
+        ourShader.setVec3("viewPos", camera.Position);
 
-        // 定向光设置
-        ourShader.setVec3("dirLight.direction", -(camera.Front + camera.Position));
-        ourShader.setVec3("dirLight.ambient", 0.4f, 0.4f, 0.4f);
-        ourShader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-        ourShader.setVec3("dirLight.specular", 0.4f, 0.4f, 0.4f);
+        // 定向光设置，方向设置为摄像头的方向
+        ourShader.setVec3("spotLight.position", camera.Position);
+        ourShader.setVec3("spotLight.direction", camera.Front);
+        ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+        ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(17.5f)));
+        ourShader.setFloat("spotLight.constant", 1.0f);
+        ourShader.setFloat("spotLight.constant", 1.0f);
+        ourShader.setFloat("spotLight.linear", 0.022f);
+        ourShader.setFloat("spotLight.quadratic", 0.0019f);
+
+        ourShader.setVec3("spotLight.ambient", 0.8f, 0.8f, 0.8f);
+        ourShader.setVec3("spotLight.diffuse", 0.4f, 0.4f, 0.4f);
+        ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
 
         ourModel.Draw(ourShader);
 
